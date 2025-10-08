@@ -10,6 +10,12 @@
 <body>
     <header class="header">
         <div class="header-title" onclick="loadPage('home')">Timesheet</div>
+        <a class="helpIcon" href="help.html">
+            <svg width="25" height="25" viewBox="0 0 30 30" xmlns="http://www.w3.org/2000/svg">
+                <circle cx="15" cy="15" r="13" stroke="white" stroke-width="3" fill="none"/>
+                <text x="50%" y="50%" text-anchor="middle" dominant-baseline="central" font-size="20" fill="white" font-family="Arial, sans-serif" font-weight="bold">?</text>
+            </svg>
+        </a>
          <div>
             <label for="group"></label>
             <select id="group" onchange="fetchData()">

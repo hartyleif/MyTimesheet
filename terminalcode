@@ -1,0 +1,5 @@
+pull : git pull origin main
+push :
+    git add .
+    git commit -m "Pesan commit Anda"
+    git push origin main

@@ -161,3 +161,19 @@ pre {
     width: 80px;
     cursor: pointer;
 }
+.footer {
+    width:100%;
+    text-align: center;
+    background: #1e1e1e;
+    position: inherit;
+}
+.inputForm {
+    font-size: large;
+    font-weight: bold;
+    cursor: pointer;
+}
+
+.help-main {
+    align-items: start;
+    margin-left: 20px;
+}
