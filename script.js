@@ -35,14 +35,15 @@ function generateSchedule(month, year, group, type) {
             else patternIdx = 2;
         }
         let sch = type=="code"? 1 : 0;
+        const codeId = codeSch[patternIdx][1];
         schedule.push([
             codeSch[patternIdx][sch], // Kategori kerja
-            times[codeSch[patternIdx][1]][0], 
-            times[codeSch[patternIdx][1]][1],
-            times[codeSch[patternIdx][1]][2],
-            times[codeSch[patternIdx][1]][3],
-            codeSch[patternIdx][1] == '90016'? "" : document.cookie.split('; ').find(row => row.startsWith('remarks='))?.split('=')[1] || "",
-            codeSch[patternIdx][1] == '90016'? "" : document.cookie.split('; ').find(row => row.startsWith('justification='))?.split('=')[1] || "" 
+            times[codeId][0], 
+            times[codeId][1],
+            times[codeId][2],
+            times[codeId][3],
+            getRemarksByCode(codeId),
+            getJustificationByCode(codeId)
         ]);
     }
 
@@ -81,12 +82,31 @@ function generateSchedule(month, year, group, type) {
     return schedule;
   }
 }
+// helper untuk ambil cookie dengan nama
+function getCookieValue(name) {
+    return document.cookie.split('; ').find(row => row.startsWith(name + '='))?.split('=')[1] || '';
+}
+
+function getRemarksByCode(code) {
+    if (code === '90016') return '';
+    return code === '92626' ? getCookieValue('remarksDs') : getCookieValue('remarksNs');
+}
+
+function getJustificationByCode(code) {
+    if (code === '90016') return '';
+    return code === '92626' ? getCookieValue('justificationDs') : getCookieValue('justificationNs');
+}
+
 function saveCookies() {
     
-    let remarks = document.getElementById("remarks").value;
-    let justification = document.getElementById("justification").value;
-    document.cookie = `remarks=${remarks}; path=/; max-age=31536000`; // 1 tahun
-    document.cookie = `justification=${justification}; path=/; max-age=31536000`; // 1 tahun
+    let remarksDs = document.getElementById("remarksDs").value;
+    let remarksNs = document.getElementById("remarksNs").value;
+    let justificationDs = document.getElementById("justificationDs").value;
+    let justificationNs = document.getElementById("justificationNs").value;
+    document.cookie = `remarksDs=${remarksDs}; path=/; max-age=31536000`; // 1 tahun
+    document.cookie = `remarksNs=${remarksNs}; path=/; max-age=31536000`; // 1 tahun
+    document.cookie = `justificationDs=${justificationDs}; path=/; max-age=31536000`; // 1 tahun
+    document.cookie = `justificationNs=${justificationNs}; path=/; max-age=31536000`; // 1 tahun
     fetchData();
 }
 
@@ -173,7 +193,9 @@ function generateTable(arr) {
 window.onload = function() {
     populateYearDropdown();
     setCurrentMonth();
-    document.getElementById("remarks").value = document.cookie.split('; ').find(row => row.startsWith('remarks='))?.split('=')[1] || "";
-    document.getElementById("justification").value = document.cookie.split('; ').find(row => row.startsWith('justification='))?.split('=')[1] || "";
+    document.getElementById("remarksDs").value = document.cookie.split('; ').find(row => row.startsWith('remarksDs='))?.split('=')[1] || "";
+    document.getElementById("remarksNs").value = document.cookie.split('; ').find(row => row.startsWith('remarksNs='))?.split('=')[1] || "";
+    document.getElementById("justificationDs").value = document.cookie.split('; ').find(row => row.startsWith('justificationDs='))?.split('=')[1] || "";
+    document.getElementById("justificationNs").value = document.cookie.split('; ').find(row => row.startsWith('justificationNs='))?.split('=')[1] || "";
     fetchData();
 };
